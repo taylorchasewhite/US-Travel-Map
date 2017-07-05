@@ -79,7 +79,7 @@ function renderStates() {
 		color.domain([0,1,2,3]); // setting the range of the input data
 
 		// Load GeoJSON data and merge with states data
-		d3.json("US-States.json", function(json) {
+		d3.json('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/US-States.json', function(json) {
 
 			// Loop through each state data value in the .tsv file
 			for (var i = 0; i < data.length; i++) {
@@ -347,7 +347,7 @@ function defineFilter () {
 }
 function renderCitiesLived() {
 	// Map the cities I have lived in!
-	d3.tsv("CitiesLived.tsv", cityType, function(data) {
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/CitiesLived.tsv', cityType, function(data) {
 
 		svg.selectAll("circle")
 			.data(data)
@@ -409,7 +409,7 @@ function renderCitiesLived() {
 }
 
 function renderCitiesVisited() {
-		d3.tsv("CitiesTraveledTo.tsv",cityVisited, function(data) {
+		d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/CitiesTraveledTo.tsv',cityVisited, function(data) {
 		var cities = svg.selectAll(".city")
 			.data(data)
 			.enter()
