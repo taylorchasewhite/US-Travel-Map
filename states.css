@@ -1,0 +1,50 @@
+/* On mouse hover, lighten state color */
+path:hover {
+        fill-opacity: .7;
+}
+
+/* Style for Custom Tooltip */
+div.tooltip {   
+        position: absolute;           
+        text-align: center;           
+        width: 60px;                  
+        height: 28px;                 
+        padding: 2px;             
+        font: 12px sans-serif;        
+        background: white;   
+        border: 0px;      
+        border-radius: 0px;           
+        pointer-events: none;
+        border-bottom:3px solid rgb(217, 91, 67);
+        box-shadow: 1px 1px 4px black;
+}
+        
+/* Legend Font Style */
+body {
+        font: 11px sans-serif;
+}
+        
+/* Legend Position Style */
+.legend {
+        position:relative;
+        float:right;
+        top:0px;
+}
+
+/* tooltip */
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgb(217, 91, 67);
+  position:relative;
+  left:27px;
+  top:5px;
+}
+
+.progress-meter text {
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}

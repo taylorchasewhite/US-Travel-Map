@@ -19,7 +19,6 @@ var cityLivedColor,cityLivedColorStroke,color,div,funPinColor,height,legendText,
 function initialize() {
 	initGlobalVariables();
 	renderStates();
-	renderAccents();
 }
 
 /**
@@ -145,7 +144,6 @@ function renderStates() {
 					}
 				});
 			renderCitiesLived();
-			renderCitiesVisited();
 			renderLegend();
 		});
 	});
@@ -216,6 +214,63 @@ function renderCitiesLived() {
 					}
 				}, 100);				   
 			});
+		renderParksArea();
+	});
+}
+/**
+ * Render the national park boundaries in the SVG
+ * @private
+ * 
+ */
+function renderParksArea() {
+	color.domain([0,1,2,3]); // setting the range of the input data
+
+	d3.tsv("./data/nationalParks.tsv", parkType,function(data) {
+		// Load GeoJSON data and merge with states data
+		d3.json('https://gist.githubusercontent.com/pdbartsch/d4f05d9c65d80f8d4dfb/raw/6b7d62c7f648a5e6b3dedd38a645b09ac4935f9c/natparks.json', function(error,json) {
+			if (error) throw error;
+
+			// Bind the data to the SVG and create one path per GeoJSON feature
+			var parksPath=svg.append("g")
+				.attr("id","parks");
+
+			var parkJSONData = topojson.feature(json, json.objects.natparks4326)
+			var parkData = parksPath.selectAll("path")
+				.data(parkJSONData.features);
+
+			// Loop through each state data value in the .tsv file
+			for (var i = 0; i < data.length; i++) {
+				var currentPark=data[i];
+
+				// Find the corresponding state inside the GeoJSON
+				for (var j = 0; j < parkJSONData.features.length; j++)  {
+					var jsonPark = parkJSONData.features[j];
+					
+					if (currentPark.Name == jsonPark.properties.UNIT_NAME) {
+
+						for (var prop in currentPark) {
+							if (currentPark.hasOwnProperty(prop)) {
+								jsonPark.properties[prop] = currentPark[prop];
+							}
+						}
+						// Stop looking through the JSON
+						break;
+					}
+				}
+			}
+			
+			var parkAreas = parkData
+				.enter()
+				.append("path")
+				.attr("d", path)
+				.classed("park",true)
+				.classed("visited",function(d) {
+					return d.properties.Visited;
+				});
+			//renderTooltip();
+			addTooltipToElement(parkAreas,true);
+		});
+		renderCitiesVisited();
 	});
 }
 
@@ -307,61 +362,6 @@ function renderCitiesVisited() {
 	});
 }
 
-/**
- * Render the national park boundaries in the SVG
- * @private
- * 
- */
-function renderParksArea() {
-	color.domain([0,1,2,3]); // setting the range of the input data
-
-	d3.tsv("./data/nationalParks.tsv", parkType,function(data) {
-		// Load GeoJSON data and merge with states data
-		d3.json('https://gist.githubusercontent.com/pdbartsch/d4f05d9c65d80f8d4dfb/raw/6b7d62c7f648a5e6b3dedd38a645b09ac4935f9c/natparks.json', function(error,json) {
-			if (error) throw error;
-
-			// Bind the data to the SVG and create one path per GeoJSON feature
-			var parksPath=svg.append("g")
-				.attr("id","parks");
-
-			var parkJSONData = topojson.feature(json, json.objects.natparks4326)
-			var parkData = parksPath.selectAll("path")
-				.data(parkJSONData.features);
-
-			// Loop through each state data value in the .tsv file
-			for (var i = 0; i < data.length; i++) {
-				var currentPark=data[i];
-
-				// Find the corresponding state inside the GeoJSON
-				for (var j = 0; j < parkJSONData.features.length; j++)  {
-					var jsonPark = parkJSONData.features[j];
-					
-					if (currentPark.Name == jsonPark.properties.UNIT_NAME) {
-
-						for (var prop in currentPark) {
-							if (currentPark.hasOwnProperty(prop)) {
-								jsonPark.properties[prop] = currentPark[prop];
-							}
-						}
-						// Stop looking through the JSON
-						break;
-					}
-				}
-			}
-			
-			var parkAreas = parkData
-				.enter()
-				.append("path")
-				.attr("d", path)
-				.classed("park",true)
-				.classed("visited",function(d) {
-					return d.properties.Visited;
-				});
-			//renderTooltip();
-			addTooltipToElement(parkAreas,true);
-		});
-	});
-}
 
 /**
  * Tooltip for the city or park being hovered over
@@ -497,30 +497,6 @@ function renderProgressRing() {
 			setTimeout(loops, 10);
 		}
 	})();
-}
-
-/**
- * Render the tooltip for pins, render the pins themselves
- * @private
- * 
- */
-function renderAccents() {
-	var t = d3.timer(function(elapsed) {
-		if (elapsed > 1000) {
-			t.stop();
-			//renderCitiesLived();
-			//renderCitiesVisited();
-			//renderLegend();
-		}
-	}, 150);
-
-	var t2 = d3.timer(function(elapsed) {
-		if (elapsed > 1500) {
-			t2.stop();
-			//renderTooltip();
-		}
-	}, 150);
-	
 }
 
 /**
