@@ -123,7 +123,9 @@ function renderStates() {
 			}
 				
 			// Bind the data to the SVG and create one path per GeoJSON feature
-			svg.selectAll("path")
+			var statesPath= svg.append("g");
+			statesPath.attr("id","states")
+				.selectAll("path")
 				.data(json.features)
 				.enter()
 				.append("path")
@@ -280,7 +282,8 @@ function renderParksArea() {
  */
 function renderCitiesVisited() {
 		d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/CitiesTraveledTo.tsv',cityVisited, function(data) {
-		var cities = svg.selectAll(".city")
+		var cityParentGroup = svg.append("g").attr("id","cities");
+		var cities = cityParentGroup.selectAll(".city")
 			.data(data)
 			.enter()
 			.append("g")
@@ -358,10 +361,32 @@ function renderCitiesVisited() {
 					}
 				}, 100);
 			});		
-		renderTooltip();
 	});
+	//renderTooltip();
+	renderAccents();
 }
 
+/**
+ * Render the tooltip for pins, render the pins themselves
+ * @private
+ * 
+ */
+function renderAccents() {
+	var t = d3.timer(function(elapsed) {
+		if (elapsed > 1000) {
+			t.stop();
+			//renderParks();
+		}
+	}, 150);
+
+	var t2 = d3.timer(function(elapsed) {
+		if (elapsed > 1000) {
+			t2.stop();
+			renderTooltip();
+		}
+	}, 150);
+	
+}
 
 /**
  * Tooltip for the city or park being hovered over
@@ -701,7 +726,7 @@ function addTooltipToElement(tooltipElData,isParkArea) {
 				tooltipX=coordinates[0];
 				tooltipY=coordinates[1];
 				xPosition = tooltipX-(tooltipWidth/2);
-				yPosition = tooltipY - pinRadius - (tooltipHeight)-pinLength-tooltipTriangleHeight-triangleBuffer;
+				yPosition = tooltipY - pinRadius - (tooltipHeight)-tooltipTriangleHeight-triangleBuffer;
 				tooltipText.text(function() {
 					var tooltipText=d.properties.UNIT_NAME;
 					if (d.properties.State!=null || d.properties.State!=undefined) {
