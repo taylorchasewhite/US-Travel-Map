@@ -265,9 +265,16 @@ function renderParksArea() {
 				.enter()
 				.append("path")
 				.attr("d", path)
+				.attr("id",function(d){
+					var name = d.properties.Name;
+					if (name) {
+						return "path"+(name.replace(/\s+/g, ''));
+					}
+					return "";
+				})
 				.classed("park",true)
 				.classed("visited",function(d) {
-					return d.properties.Visited;
+					return d.properties.Visited==="Yes";
 				});
 			//renderTooltip();
 			addTooltipToElement(parkAreas,true);

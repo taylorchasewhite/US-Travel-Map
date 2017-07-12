@@ -3,3 +3,9 @@
     stroke: rgba(72, 95, 135,1);
     stroke-width: 1px;
 }
+
+.park.visited {
+    fill: rgba(85, 190, 98,.5);
+    stroke: rgba(85, 190, 98,1);
+    stroke-width: .75px;
+}
