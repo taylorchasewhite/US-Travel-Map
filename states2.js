@@ -159,8 +159,9 @@ function renderStates() {
 function renderCitiesLived() {
 	// Map the cities I have lived in!
 	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesLived.tsv', cityType, function(data) {
-
-		svg.selectAll("circle")
+		var cities = svg.append("g")
+			.attr("class","citiesLivedGroup");
+		cities.selectAll("circle")
 			.data(data)
 			.enter()
 			.append("circle")
@@ -288,7 +289,7 @@ function renderParksArea() {
  * @private
  */
 function renderCitiesVisited() {
-		d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(data) {
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(data) {
 		var cityParentGroup = svg.append("g").attr("id","cities");
 		var cities = cityParentGroup.selectAll(".city")
 			.data(data)
@@ -296,81 +297,146 @@ function renderCitiesVisited() {
 			.append("g")
 			.classed("city",true);
 			
+		try {
 			cities.append("line")
-			.attr("x1", function(d) {
-				return projection([d.Longitude, d.Latitude])[0];
-			})
-			.attr("x2", function(d) {
-				return projection([d.Longitude, d.Latitude])[0];
-			})
-			.attr("y1", function(d) {
-				return projection([d.Longitude, d.Latitude])[1]-pinLength;
-			})
-			.attr("y2", function(d) {
-				return (projection([d.Longitude, d.Latitude])[1]);
-			})
-			.attr("stroke-width",function(d) {
-				return 2;
-			})
-			.attr("stroke",function(d) {
-				return "grey";
-			});
-			
+				.attr("x1", function(d) {
+					return projection([d.Longitude, d.Latitude])[0];						
+				})
+				.attr("x2", function(d) {
+					return projection([d.Longitude, d.Latitude])[0];
+				})
+				.attr("y1", function(d) {
+					return projection([d.Longitude, d.Latitude])[1]-pinLength;
+				})
+				.attr("y2", function(d) {
+					return (projection([d.Longitude, d.Latitude])[1]);
+				})
+				.attr("stroke-width",function(d) {
+					return 2;
+				})
+				.attr("stroke",function(d) {
+					return "grey";
+				});
+		}
+		catch(error) {
+			logError(error,"CitiesVisited");
+		}
+		
+		try {
 			cities.append("circle")
-			.attr("cx", function(d) {
-				return projection([d.Longitude, d.Latitude])[0];
-			})
-			.attr("cy", function(d) {
-				return projection([d.Longitude, d.Latitude])[1]-pinLength;
-			})
-			.attr("r", function(d) {
-				return pinRadius;
-			})
-			.style("fill", function(d) {
-				return getCityVisitedColor(d);
-			})	
-			.style("opacity", 1.0)	
+				.attr("cx", function(d) {
+					return projection([d.Longitude, d.Latitude])[0];
+				})
+				.attr("cy", function(d) {
+					return projection([d.Longitude, d.Latitude])[1]-pinLength;
+				})
+				.attr("r", function(d) {
+					return pinRadius;
+				})
+				.style("fill", function(d) {
+					return getCityVisitedColor(d);
+				})	
+				.style("opacity", 1.0)	
 
-			// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-			// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-			.on("mouseover", function(d) {
-				tooltipTimer.stop();
-				div.transition()
-					.duration(200)
-					.style("opacity", .9);
-				tooltipText.text(d.City + ", " + d.State)
-				div.attr("transform", function() {
-					var tooltipX = (projection([d.Longitude, d.Latitude])[0]);
-					var tooltipY = projection([d.Longitude, d.Latitude])[1];
+				// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
+				// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+				.on("mouseover", function(d) {
+					tooltipTimer.stop();
+					div.transition()
+						.duration(200)
+						.style("opacity", .9);
+					tooltipText.text(d.City + ", " + d.State)
+					div.attr("transform", function() {
+						var tooltipX = (projection([d.Longitude, d.Latitude])[0]);
+						var tooltipY = projection([d.Longitude, d.Latitude])[1];
+						
+						var xPosition = tooltipX-(tooltipWidth/2);
+						var yPosition = tooltipY - pinRadius - (tooltipHeight)-pinLength-tooltipTriangleHeight-triangleBuffer;
+						return  "translate("+xPosition+","+yPosition+")";
+					});
 					
-					var xPosition = tooltipX-(tooltipWidth/2);
-					var yPosition = tooltipY - pinRadius - (tooltipHeight)-pinLength-tooltipTriangleHeight-triangleBuffer;
-					return  "translate("+xPosition+","+yPosition+")";
-				});
-				
-				tooltipBorder.attr("stroke", function () {
-					return getCityVisitedColor(d);
-				});
-				tooltipTriangle.attr("fill", function() {
-					return getCityVisitedColor(d);
-				});
-			})   
+					tooltipBorder.attr("stroke", function () {
+						return getCityVisitedColor(d);
+					});
+					tooltipTriangle.attr("fill", function() {
+						return getCityVisitedColor(d);
+					});
+				})   
 
-			// fade out tooltip on mouse out               
-			.on("mouseout", function(d) {       
-				div.transition()        
-				   .duration(500)      
-				   .style("opacity", 0);   
-				tooltipTimer = d3.timer(function(elapsed) {
-					if (elapsed > 500) {
-						tooltipTimer.stop();
-						div.attr("transform","translate(0,0)");
-					}
-				}, 100);
-			});		
+				// fade out tooltip on mouse out               
+				.on("mouseout", function(d) {       
+					div.transition()        
+					.duration(500)      
+					.style("opacity", 0);   
+					tooltipTimer = d3.timer(function(elapsed) {
+						if (elapsed > 500) {
+							tooltipTimer.stop();
+							div.attr("transform","translate(0,0)");
+						}
+					}, 100);
+				});	
+		}
+		catch(error) {
+			logError(error,"CitiesVisited");
+		}	
 	});
 	//renderTooltip();
 	renderAccents();
+}
+
+/**
+ * Wait a second or two for other elements to render before rendering the error.
+ * 
+ * @param {Object} error - The error object thrown from the calling function
+ * @param {string} callingFuncName - The origin of the error message, displayed in the console for debugging
+ */
+function logError(error,callingFuncName) {
+	var t =	d3.timer(function(elapsed) {
+		if (elapsed > 500) {
+			t.stop();
+			renderError(error,callingFuncName);
+		}
+	}, 150);
+
+	/*d3.select("#divError").classed("hidden",false);
+		console.log(error);
+		console.log("Likely too few tabs, too many tabs, or mismatched data for a row in the " + callingFuncName +
+			".tsv.\nMake sure your data is formatted correctly and then reload the page!");*/
+}
+
+function renderError(error,callingFuncName) {
+	var errorHeight = tooltipHeight*4;
+	var errorWidth = 600;
+
+	var errors= d3.select("#svgMap");
+	
+	errors.select(".errorMessage").remove();
+
+	var errorGroup = errors.append("g")
+		//.attr("id","groupError")
+		.attr("class","errorMessage fade-in shadow");
+
+	errorGroup.append("rect")
+		.attr("width",errorWidth)
+		.attr("height",errorHeight)
+		.attr("rx",10)
+		.attr("ry",0);
+	var errorText=errorGroup.append("text")
+		.attr("x",errorWidth/2)
+		.attr("y",errorHeight/4)
+		.attr("dy", ".35em")
+		.attr("text-anchor",'middle');
+	errorText.append("tspan")
+		.text("It looks like we're having trouble reading the data files.")
+		.attr("x",errorWidth/2)
+		.attr("dy","1.2em");
+	errorText.append("tspan")
+		.text("Please contact the owner of this map to let them know!")
+		.attr("x",errorWidth/2)
+		.attr("dy","1.2em");
+
+
+	errorGroup.attr("transform","translate(" + (width/2 - errorWidth/2) + ", "+ (height/2-errorHeight/2)+")");
 }
 
 /**
