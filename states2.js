@@ -92,7 +92,7 @@ function initGlobalVariables() {
  */
 function renderStates() {
 	// Load in my states data!
-	d3.tsv("StatesLived.tsv", stateType,function(data) {
+	d3.tsv("./data/StatesLived.tsv", stateType,function(data) {
 		color.domain([0,1,2,3]); // setting the range of the input data
 
 		// Load GeoJSON data and merge with states data
