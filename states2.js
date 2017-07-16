@@ -95,7 +95,7 @@ function renderStates() {
 	d3.tsv("./data/StatesLived.tsv", stateType,function(statesError,data) {
 		if (statesError) {
 			logError(statesError,"Rendering states lived");
-			break;
+			return;
 		}
 		color.domain([0,1,2,3]); // setting the range of the input data
 
@@ -103,7 +103,7 @@ function renderStates() {
 		d3.json('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/US-States.json', function(jsonStatesError,json) {
 			if (jsonStatesError) {
 				logError(jsonStatesError,"Rendering states json");
-				break;
+				return;
 			}
 			// Loop through each state data value in the .tsv file
 			for (var i = 0; i < data.length; i++) {
