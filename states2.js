@@ -92,12 +92,19 @@ function initGlobalVariables() {
  */
 function renderStates() {
 	// Load in my states data!
-	d3.tsv("./data/StatesLived.tsv", stateType,function(data) {
+	d3.tsv("./data/StatesLived.tsv", stateType,function(statesError,data) {
+		if (statesError) {
+			logError(statesError,"Rendering states lived");
+			break;
+		}
 		color.domain([0,1,2,3]); // setting the range of the input data
 
 		// Load GeoJSON data and merge with states data
-		d3.json('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/US-States.json', function(json) {
-
+		d3.json('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/US-States.json', function(jsonStatesError,json) {
+			if (jsonStatesError) {
+				logError(jsonStatesError,"Rendering states json");
+				break;
+			}
 			// Loop through each state data value in the .tsv file
 			for (var i = 0; i < data.length; i++) {
 
@@ -231,7 +238,9 @@ function renderParksArea() {
 	d3.tsv("./data/nationalParks.tsv", parkType,function(data) {
 		// Load GeoJSON data and merge with states data
 		d3.json('https://gist.githubusercontent.com/pdbartsch/d4f05d9c65d80f8d4dfb/raw/6b7d62c7f648a5e6b3dedd38a645b09ac4935f9c/natparks.json', function(error,json) {
-			if (error) throw error;
+			if (error) {
+				logError(error,"Rendering parks");	
+			}
 
 			// Bind the data to the SVG and create one path per GeoJSON feature
 			var parksPath=svg.append("g")
@@ -398,12 +407,15 @@ function logError(error,callingFuncName) {
 		}
 	}, 150);
 
-	/*d3.select("#divError").classed("hidden",false);
-		console.log(error);
-		console.log("Likely too few tabs, too many tabs, or mismatched data for a row in the " + callingFuncName +
-			".tsv.\nMake sure your data is formatted correctly and then reload the page!");*/
 }
 
+/**
+ * Actually render the rectangle and text based on the error passed.
+ * 
+ * @private
+ * @param {Object} error - the error object thrown from the consuming function
+ * @param {string} callingFuncName - The name of the consuming function (shown in the console)
+ */
 function renderError(error,callingFuncName) {
 	var errorHeight = tooltipHeight*4;
 	var errorWidth = 600;
