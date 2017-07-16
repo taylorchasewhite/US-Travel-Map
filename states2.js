@@ -298,7 +298,7 @@ function renderParksArea() {
  * @private
  */
 function renderCitiesVisited() {
-	d3.tsv('./data/CitiesTraveledTo.tsv',cityVisited, function(data) {
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(data) {
 		var cityParentGroup = svg.append("g").attr("id","cities");
 		var cities = cityParentGroup.selectAll(".city")
 			.data(data)
