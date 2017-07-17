@@ -569,8 +569,8 @@ function renderProgressRing() {
 			}
 		},
 		size: {
-			height: 180,
-			width: 400
+			height: 150,
+			width: 300
 		}
 	});
 	setProgressRingTimeouts(gaugeData);
