@@ -9,8 +9,19 @@ http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
 Mike Bostock, Pie Chart Legend
 http://bl.ocks.org/mbostock/3888852  */
 
-var cityLivedColor,cityLivedColorStroke,color,div,funPinColor,height,legendText,noContactColor,path,pin,pinLength,pinRadius,projection,stateLivedColor,stateVisitedColor,svg,tooltipBorder,tooltipText,tooltipTimer,tooltipTriangle,tooltipWidth,tooltipHeight,tooltipTriangleHeight,triangleBuffer,width,workPinColor;
+/**
+ * Global vars
+ * @public
+ */
+// Colors, sizes & styles
+var cityLivedColor,cityLivedColorStroke,color,funPinColor,noContactColor,stateLivedColor,stateVisitedColor,workPinColor;
+var height,pinLength,pinRadius,tooltipWidth,tooltipHeight,tooltipTriangleHeight,triangleBuffer,width;
 
+// Elements & content
+var div,legendText,path,pin,projection,svg,tooltipBorder,tooltipText,tooltipTimer,tooltipTriangle,gaugeChart;
+
+// Data
+var cityLivedData,cityVisitedData,parksVisitedData,parksPathData,statesData,statesPathData,summaryData;
 /**
  * Read in the JSON/CSV data, Render the SVG
  * @public
@@ -26,32 +37,11 @@ function initialize() {
  * @private
  */
 function initGlobalVariables() {
-	width = 960;
-	height = 500;
-	pinLength=13;
-	pinRadius = 4;
-	tooltipWidth = 200;
-	tooltipHeight=33;
-	triangleBuffer = 2;
-	tooltipTriangleHeight=10;
-	tooltipTriangleWidth=10;
-	cityLivedColor = "rgb(191, 85, 236)";
-	stateLivedColor = "rgb(84,36,55)";
-	stateLivedColor = "rgb(72, 95, 135)";
-	stateVisitedColor = "rgb(69,173,168)";
-	stateVisitedColor = "rgb(169, 73, 68)";
-	stateVisitedColor = "rgb(202, 98, 101)";
-	noContactColor= "rgb(213,222,217)";
-	funPinColor = "rgb(214, 69, 65)";
-	workPinColor = "rgb(88, 171, 235)";
-	workPinColor = "rgb(191, 85, 236)";
-	workPinColor = "rgb(119, 175, 116)";
-	workPinColor = "rgb(85, 190, 98)";
-	//workPinColor = "rgb(137, 228, 148)";
-	funPinColor = "rgb(245, 215, 110)";
-	//workPinColor="rgb(214, 69, 65)";
-	//noContactColor= "rgb(255, 240, 213)";
-	cityLivedColorStroke = "rgb(154, 18, 179)";
+
+	setSizes();
+	setColors();
+	addEvent(window, "resize", onResize);
+
 	// D3 Projection
 	projection = d3.geoAlbersUsa()
 				   .translate([width/2, height/2])    // translate to center of screen
@@ -63,12 +53,8 @@ function initGlobalVariables() {
 	
 	legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
 	
-	// Define linear scale for output
-	color = d3.scaleLinear()
-			  .range([noContactColor,stateVisitedColor,stateLivedColor,cityLivedColor]);
-	
 	//Create SVG element and append map to the SVG
-	svg = d3.select("body").append("svg")
+	svg = d3.select("#content").append("svg")
 	.attr("class","map")
 	.attr("id","svgMap")
 	.attr("width", "100%")
@@ -76,8 +62,8 @@ function initGlobalVariables() {
 		return "0 0 " + width +" " + height;
 	})
 	.attr("height", "100%");
-	// Append Div for tooltip to SVG
 
+	// Append Div for tooltip to SVG
 	tooltipTimer= d3.timer(function(elapsed) {
 		if (elapsed > 50) {
 			tooltipTimer.stop();
@@ -97,6 +83,7 @@ function renderStates() {
 			logError(statesError,"Rendering states lived");
 			return;
 		}
+		statesData=data;
 		color.domain([0,1,2,3]); // setting the range of the input data
 
 		// Load GeoJSON data and merge with states data
@@ -105,6 +92,7 @@ function renderStates() {
 				logError(jsonStatesError,"Rendering states json");
 				return;
 			}
+			statesPathData=json;
 			// Loop through each state data value in the .tsv file
 			for (var i = 0; i < data.length; i++) {
 
@@ -165,7 +153,12 @@ function renderStates() {
  */
 function renderCitiesLived() {
 	// Map the cities I have lived in!
-	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesLived.tsv', cityType, function(data) {
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesLived.tsv', cityType, function(cityError,data) {
+		if (cityError) {
+			logError(cityError,"Cities lived");
+			return;
+		}
+		cityLivedData=data;
 		var cities = svg.append("g")
 			.attr("class","citiesLivedGroup");
 		cities.selectAll("circle")
@@ -235,13 +228,20 @@ function renderCitiesLived() {
 function renderParksArea() {
 	color.domain([0,1,2,3]); // setting the range of the input data
 
-	d3.tsv("./data/nationalParks.tsv", parkType,function(data) {
+	d3.tsv("./data/nationalParks.tsv", parkType,function(parkError,data) {
+		if(parkError) {
+			logError(parkError,"National parks data");
+			return;
+		}
+		parksVisitedData=data;
+
 		// Load GeoJSON data and merge with states data
 		d3.json('https://gist.githubusercontent.com/pdbartsch/d4f05d9c65d80f8d4dfb/raw/6b7d62c7f648a5e6b3dedd38a645b09ac4935f9c/natparks.json', function(error,json) {
 			if (error) {
-				logError(error,"Rendering parks");	
+				logError(error,"Rendering parks");
+				return;	
 			}
-
+			parksPathData=json;
 			// Bind the data to the SVG and create one path per GeoJSON feature
 			var parksPath=svg.append("g")
 				.attr("id","parks");
@@ -298,7 +298,12 @@ function renderParksArea() {
  * @private
  */
 function renderCitiesVisited() {
-	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(data) {
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(cityVisitedError,data) {
+		if (cityVisitedError) {
+			logError(cityVisitedError,"Loading cities visited");
+			return;
+		}
+		cityVisitedData=data;
 		var cityParentGroup = svg.append("g").attr("id","cities");
 		var cities = cityParentGroup.selectAll(".city")
 			.data(data)
@@ -391,6 +396,7 @@ function renderCitiesVisited() {
 	});
 	//renderTooltip();
 	renderAccents();
+	renderProgressRing();
 }
 
 /**
@@ -523,92 +529,119 @@ function renderProgressRing() {
 		'yellow': '#f0ff08',
 		'green': '#47e495'
 	};
-
-	var color = colors.pink;
-
-	var radius = 100;
-	var border = 5;
-	var padding = 30;
-	var startPercent = 0;
-	var endPercent = 0.85;
-
-
-	var twoPi = Math.PI * 2;
-	var formatPercent = d3.format('.0%');
-	var boxSize = (radius + padding) * 2;
-
-
-	var count = Math.abs((endPercent - startPercent) / 0.01);
-	var step = endPercent < startPercent ? -0.01 : 0.01;
-
-	var arc = d3.svg.arc()
-		.startAngle(0)
-		.innerRadius(radius)
-		.outerRadius(radius - border);
-
-	var parent = d3.select('div#content');
-
-	var svg = parent.append('svg')
-		.attr('width', boxSize)
-		.attr('height', boxSize);
-
-	var defs = svg.append('defs');
-
-	var filter = defs.append('filter')
-		.attr('id', 'blur');
-
-	filter.append('feGaussianBlur')
-		.attr('in', 'SourceGraphic')
-		.attr('stdDeviation', '7');
-
-	var g = svg.append('g')
-		.attr('transform', 'translate(' + boxSize / 2 + ',' + boxSize / 2 + ')');
-
-	var meter = g.append('g')
-		.attr('class', 'progress-meter');
-
-	meter.append('path')
-		.attr('class', 'background')
-		.attr('fill', '#ccc')
-		.attr('fill-opacity', 0.5)
-		.attr('d', arc.endAngle(twoPi));
-
-	var foreground = meter.append('path')
-		.attr('class', 'foreground')
-		.attr('fill', color)
-		.attr('fill-opacity', 1)
-		.attr('stroke', color)
-		.attr('stroke-width', 5)
-		.attr('stroke-opacity', 1)
-		.attr('filter', 'url(#blur)');
-
-	var front = meter.append('path')
-		.attr('class', 'foreground')
-		.attr('fill', color)
-		.attr('fill-opacity', 1);
-
-	var numberText = meter.append('text')
-		.attr('fill', '#fff')
-		.attr('text-anchor', 'middle')
-		.attr('dy', '.35em');
-
-	function updateProgress(progress) {
-		foreground.attr('d', arc.endAngle(twoPi * progress));
-		front.attr('d', arc.endAngle(twoPi * progress));
-		numberText.text(formatPercent(progress));
-	}
-
-	var progress = startPercent;
-
-	(function loops() {
-		updateProgress(progress);
-
-		if (count > 0) {
-			count--;
-			progress += step;
-			setTimeout(loops, 10);
+	var c3=bb;
+	var gaugeData = getGaugeData();
+	gaugeChart = c3.generate({
+		bindto: "#divGaugeChart",
+		data: {
+			columns: [
+				['data', 0]
+			],
+			type: 'gauge',
+			onclick: function (d, i) { 
+				console.log("onclick", d, i); 
+			},
+			onmouseover: function (d, i) { 
+				console.log("onmouseover", d, i); 
+			},
+			onmouseout: function (d, i) { 
+				console.log("onmouseout", d, i); 
+			}
+		},
+		gauge: {
+			//	label: {
+			//		format: function(value, ratio) {
+			//			return value;
+			//		},
+			//		show: false // to turn off the min/max labels.
+			//	},
+			//	min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
+				max: 58, // 100 is default
+				units: "Parks visited"//    units: ' %',
+			//	width: 39 // for adjusting arc thickness
+		},
+		color: {
+			pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
+			threshold: {
+				// unit: 'value', // percentage is default
+				// max: 200, // 100 is default
+				values: [2, 5, 40, 90]
+			}
+		},
+		size: {
+			height: 180,
+			width: 400
 		}
-	})();
+	});
+	// National parks visited
+	setTimeout(function () {
+		//gaugeChart.internal.config.tooltip_format_name = gaugeData.parksVisited.columnName;
+		gaugeChart.load({
+			columns: [['data', gaugeData.parksVisited.value]]
+		});
+	}, 1000);
+
+	// States lived
+	setTimeout(function () {
+		//gaugeChart.internal.config.tooltip_format_name = gaugeData.statesLived.columnName;
+		gaugeChart.internal.config.gauge_max = gaugeData.statesLived.max;
+		gaugeChart.internal.config.gauge_units = gaugeData.statesLived.units;
+
+		gaugeChart.load({
+			columns: [['data', gaugeData.statesLived.value]]
+		});
+	}, 4000);
+
+	// States visited
+	setTimeout(function () {
+		//gaugeChart.internal.config.tooltip_format_name = gaugeData.statesVisited.columnName;
+		gaugeChart.internal.config.gauge_units = gaugeData.statesVisited.units;
+		gaugeChart.load({
+			unload:true,
+			columns: [['data', gaugeData.statesVisited.value]]
+		});
+	}, 7500);
+
+}
+
+function getGaugeData() {
+	var gaugeData={};
+	var sumData = d3.nest()
+		.key(function(d) {
+			return d.Status;
+		})
+		/*.rollup(function(d) {
+			return d3.sum(d,function (g) {
+				g.value;
+			});
+		})*/
+		.object(statesData);
+	summaryData=sumData;
+
+	console.log(sumData);
+	gaugeData.statesLived={
+		columnName: "States Lived",
+		min:0,
+		max:statesData.length,
+		units: "states lived",
+		value: summaryData.Lived.length
+	};
+	gaugeData.statesVisited={
+		columnName: "States Visited",
+		min: 0,
+		max:statesData.length,
+		units: "States visited",
+		value: summaryData.Lived.length+summaryData.Visited.length
+	};
+	gaugeData.parksVisited={
+		columnName: "Parks Visited",
+		min: 0,
+		max:58,
+		//max:parksPathData.objects.natparks4326.geometries.length,
+		units: "Parks visited",
+		value: 2
+	};
+	return gaugeData;
 }
 
 /**
@@ -618,7 +651,7 @@ function renderProgressRing() {
  */
 function renderLegend() {
 	// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-	var legend = d3.select("body").append("svg")
+	var legend = d3.select("#divLegend").append("svg")
 			.attr("class", "legend")
 			.attr("width", 140)
 			.attr("height", 200)
@@ -850,6 +883,17 @@ function addTooltipToElement(tooltipElData,isParkArea) {
 	});
 }
 
+var addEvent = function(object, type, callback) {
+    if (object == null || typeof(object) == 'undefined') return;
+    if (object.addEventListener) {
+        object.addEventListener(type, callback, false);
+    } else if (object.attachEvent) {
+        object.attachEvent("on" + type, callback);
+    } else {
+        object["on"+type] = callback;
+    }
+};
+
 /**
  * Resize the map on the resize of the window
  * @private
@@ -866,20 +910,10 @@ function onResize() {
 	//			   .scale([width]);          // scale things down so see entire US
 }
 
-var addEvent = function(object, type, callback) {
-    if (object == null || typeof(object) == 'undefined') return;
-    if (object.addEventListener) {
-        object.addEventListener(type, callback, false);
-    } else if (object.attachEvent) {
-        object.attachEvent("on" + type, callback);
-    } else {
-        object["on"+type] = callback;
-    }
-};
-
-addEvent(window, "resize", onResize);
-
-
+/**
+ * Define the filter to be used for elements with a drop shadow.
+ * @private
+ */
 function defineFilter () {
 	// create filter with id #drop-shadow
 	// height=130% so that the shadow is not clipped
@@ -916,4 +950,112 @@ function defineFilter () {
 		.attr("in", "offsetBlur")
 	feMerge.append("feMergeNode")
 		.attr("in", "SourceGraphic");
+}
+
+/**
+ * Set the colors to be used throughout the chart
+ * 
+ * @private
+ */
+function setColors() {
+	cityLivedColor = "rgb(191, 85, 236)";
+	stateLivedColor = "rgb(84,36,55)";
+	stateLivedColor = "rgb(72, 95, 135)";
+	stateVisitedColor = "rgb(69,173,168)";
+	stateVisitedColor = "rgb(169, 73, 68)";
+	stateVisitedColor = "rgb(202, 98, 101)";
+	noContactColor= "rgb(213,222,217)";
+	funPinColor = "rgb(214, 69, 65)";
+	workPinColor = "rgb(88, 171, 235)";
+	workPinColor = "rgb(191, 85, 236)";
+	workPinColor = "rgb(119, 175, 116)";
+	workPinColor = "rgb(85, 190, 98)";
+	//workPinColor = "rgb(137, 228, 148)";
+	funPinColor = "rgb(245, 215, 110)";
+	//workPinColor="rgb(214, 69, 65)";
+	//noContactColor= "rgb(255, 240, 213)";
+	cityLivedColorStroke = "rgb(154, 18, 179)";
+
+	// Used for the legend
+	color = d3.scaleLinear()
+		.range([noContactColor,stateVisitedColor,stateLivedColor,cityLivedColor]);
+}
+
+/**
+ * Set the sizes through global variables to be used throughout the chart
+ * 
+ * @private
+ */
+function setSizes() {
+	width = 960;
+	height = 500;
+	pinLength=13;
+	pinRadius = 4;
+	tooltipWidth = 200;
+	tooltipHeight=33;
+	triangleBuffer = 2;
+	tooltipTriangleHeight=10;
+	tooltipTriangleWidth=10;
+}
+
+function loadData(dataToLoad) {
+	loadStatesData();
+	loadCityData();
+	loadParksData();
+}
+
+function loadStatesData() {
+	d3.tsv("./data/StatesLived.tsv", stateType,function(statesError,data) {
+		if (statesError) {
+			logError(statesError,"Rendering states lived");
+			return;
+		}
+		statesData=data;
+	});
+	// Load GeoJSON data and merge with states data
+	d3.json('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/US-States.json', function(jsonStatesError,json) {
+		if (jsonStatesError) {
+			logError(jsonStatesError,"Rendering states json");
+			return;
+		}
+		statesPathData=json;
+	});
+}
+
+function loadCityData() {
+	// Map the cities I have lived in!
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesLived.tsv', cityType, function(cityError,data) {
+		if (cityError) {
+			logError(cityError,"Cities lived");
+			return;
+		}
+		cityLivedData=data;
+	});
+
+	// Map the cities visited
+	d3.tsv('https://raw.githubusercontent.com/taylorchasewhite/US-Travel-Map/master/data/CitiesTraveledTo.tsv',cityVisited, function(cityVisitedError,data) {
+		if (cityVisitedError) {
+			logError(cityVisitedError,"Loading cities visited");
+			return;
+		}
+		cityVisitedData=data;
+	});
+}
+
+function loadParksData() {
+	d3.tsv("./data/nationalParks.tsv", parkType,function(parkError,data) {
+		if(parkError) {
+			logError(parkError,"National parks data");
+			return;
+		}
+		parksVisitedData=data;
+	});
+	// Load GeoJSON data and merge with states data
+	d3.json('https://gist.githubusercontent.com/pdbartsch/d4f05d9c65d80f8d4dfb/raw/6b7d62c7f648a5e6b3dedd38a645b09ac4935f9c/natparks.json', function(error,json) {
+		if (error) {
+			logError(error,"Rendering parks");
+			return;	
+		}
+		parksPathData=json;
+	});
 }

@@ -3,6 +3,10 @@ path:hover {
         fill-opacity: .7;
 }
 
+path.bb-shape:hover {
+        fill-opacity: 1;
+}
+
 /* Style for Custom Tooltip */
 div.tooltip {   
         position: absolute;           
@@ -39,10 +43,14 @@ body {
 }
         
 /* Legend Position Style */
-.legend {
+#divLegend {
         position:relative;
         float:right;
-        top:0px;
+        top:20px;
+}
+
+#divGaugeChart {
+        float:left;
 }
 
 /* tooltip */
