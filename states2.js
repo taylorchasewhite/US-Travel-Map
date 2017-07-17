@@ -396,7 +396,6 @@ function renderCitiesVisited() {
 	});
 	//renderTooltip();
 	renderAccents();
-	renderProgressRing();
 }
 
 /**
@@ -468,6 +467,7 @@ function renderAccents() {
 	var t = d3.timer(function(elapsed) {
 		if (elapsed > 1000) {
 			t.stop();
+			renderProgressRing();
 			//renderParks();
 		}
 	}, 150);
@@ -519,8 +519,8 @@ function renderTooltip() {
 }
 
 /**
- * Note: Not currently used. Meant to render a percentage of the states traveled to
- * @deprecated
+ * Render a percentage graph indicating how many states have been travelled to
+ * @private
  * 
  */
 function renderProgressRing() {
@@ -556,7 +556,7 @@ function renderProgressRing() {
 			//		show: false // to turn off the min/max labels.
 			//	},
 			//	min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
-				max: 58, // 100 is default
+				max: gaugeData.parksVisited.max, // 100 is default
 				units: "Parks visited"//    units: ' %',
 			//	width: 39 // for adjusting arc thickness
 		},
@@ -604,6 +604,12 @@ function renderProgressRing() {
 
 }
 
+/**
+ * Get the summarized data needed to generate the gauge chart
+ * @private
+ * 
+ * @returns Object - data for states lived, states traveled to, and states visited.
+ */
 function getGaugeData() {
 	var gaugeData={};
 	var sumData = d3.nest()
@@ -636,8 +642,8 @@ function getGaugeData() {
 	gaugeData.parksVisited={
 		columnName: "Parks Visited",
 		min: 0,
-		max:58,
-		//max:parksPathData.objects.natparks4326.geometries.length,
+		//max:58,
+		max:parksPathData.objects.natparks4326.geometries.length,
 		units: "Parks visited",
 		value: 2
 	};
