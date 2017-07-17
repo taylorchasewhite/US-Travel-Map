@@ -573,9 +573,29 @@ function renderProgressRing() {
 			width: 400
 		}
 	});
+	setProgressRingTimeouts(gaugeData);
+	loopProgressRing();
+
+}
+
+function loopProgressRing() {
+	var t=d3.timer(function(elapsed) {
+		if (elapsed>10000) {
+			setProgressRingTimeouts();
+			t.stop();
+			loopProgressRing();
+		}
+	});	
+}
+
+function setProgressRingTimeouts() {
+	var gaugeData=getGaugeData();
+
 	// National parks visited
 	setTimeout(function () {
 		//gaugeChart.internal.config.tooltip_format_name = gaugeData.parksVisited.columnName;
+		gaugeChart.internal.config.gauge_max = gaugeData.parksVisited.max;
+		gaugeChart.internal.config.gauge_units = gaugeData.parksVisited.units;
 		gaugeChart.load({
 			columns: [['data', gaugeData.parksVisited.value]]
 		});
@@ -601,7 +621,6 @@ function renderProgressRing() {
 			columns: [['data', gaugeData.statesVisited.value]]
 		});
 	}, 7500);
-
 }
 
 /**
@@ -629,7 +648,7 @@ function getGaugeData() {
 		columnName: "States Lived",
 		min:0,
 		max:statesData.length,
-		units: "states lived",
+		units: "States lived",
 		value: summaryData.Lived.length
 	};
 	gaugeData.statesVisited={
