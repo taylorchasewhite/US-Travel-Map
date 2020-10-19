@@ -669,7 +669,7 @@ function getGaugeData() {
 		//max:58,
 		max:parksPathData.objects.natparks4326.geometries.length,
 		units: "Parks visited",
-		value: parksVisitedData.Yes.length
+		value: parkVisitedSumData.Yes.length
 	};
 	return gaugeData;
 }
