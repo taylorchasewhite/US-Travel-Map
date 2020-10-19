@@ -642,6 +642,10 @@ function getGaugeData() {
 		})*/
 		.object(statesData);
 	summaryData=sumData;
+	var parkVisitedSumData = parksVisitedData = d3.nest()
+		.key(function(d) {
+			return d.Visited;
+		})
 
 	console.log(sumData);
 	gaugeData.statesLived={
@@ -664,7 +668,7 @@ function getGaugeData() {
 		//max:58,
 		max:parksPathData.objects.natparks4326.geometries.length,
 		units: "Parks visited",
-		value: 2
+		value: parksVisitedData.Yes.length
 	};
 	return gaugeData;
 }
