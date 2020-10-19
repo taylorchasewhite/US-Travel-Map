@@ -642,10 +642,11 @@ function getGaugeData() {
 		})*/
 		.object(statesData);
 	summaryData=sumData;
-	var parkVisitedSumData = parksVisitedData = d3.nest()
+	var parkVisitedSumData = d3.nest()
 		.key(function(d) {
 			return d.Visited;
 		})
+		.object(parksVisitedData);
 
 	console.log(sumData);
 	gaugeData.statesLived={
