@@ -1,5 +1,5 @@
 City	State	Date Travelled	Link	Reason	Description	Latitude	Longitude
-Spokane	Washington			Work	Providence Immersion	47.6700	-117.4199
+Spokane	Washington			Work	Providence Immersion	47.67	-117.4199
 Seattle	Washington			Work	Cadence Immersion Trip	47.6062	-122.3321
 Apostle Islands National Lakeshore	Wisconsin	2018		Fun	Apostle Islands, stranded on sand island	46.9761	-90.9566
 Bayfield	Wisconsin	2018		Fun	Part of Apostle Islands trip	46.8153	-90.8391
@@ -18,7 +18,7 @@ Eau Claire	Wisconsin	2017		Work	Work, I think? Definitely been through Eau Clair
 Westmore	Vermont			Fun	Stayed in an airbnb, went to Gaps and played pool	44.7714	-72.0548
 Algoma	Wisconsin	July 1,2017		Fun	Campsite just outside of Door County	44.6089	-87.4326
 Green Bay	Wisconsin	July 1,2017		Fun	Brunch returning from Door County	44.5192	-88.0198
-Stowe	Vermont	October 19, 2019		Fun	Visited Mt. Mansfield, Stayed in Von Trapp Family Inn	44.5170	-72.9116
+Stowe	Vermont	October 19, 2019		Fun	Visited Mt. Mansfield, Stayed in Von Trapp Family Inn	44.517	-72.9116
 Burlington	Vermont	October 19, 2019		Work	Stayed in Burlington for Go-Live, also visited with family beforehand.	44.4813	-73.2221
 Bar Harbor	Maine			Fun		44.3876	-68.2039
 Shelburne	Vermont	October 21, 2019		Fun	Shelburne Museum	44.3733	-73.2345
@@ -27,7 +27,7 @@ Appleton	Wisconsin	2022		Fun	Visiting Tessa after her heartbreak and when she wa
 Barre	Vermont	October 22, 2019		Work	Barre Family Health Center, Central Vermont Medical Center Shifts	44.2201	-72.5616
 White Mountains	New Hampshire			Fun	Just drove through, but beautiful mountains	44.1644	-71.4326
 Rochester	Minnesota			Work	Mayo Clinic	44.0221	-92.4697
-Freeport	Maine			Fun	L.L. Bean Store	43.8570	-70.1031
+Freeport	Maine			Fun	L.L. Bean Store	43.857	-70.1031
 La Crosse	Wisconsin			Work	Stopped at Sushi Pirate on the way to Mayo	43.8014	-91.2394
 Portland	Maine			Fun		43.6615	-70.2553
 Viroqua	Wisconsin			Fun	Bike the Barns	43.5569	-90.8887
@@ -36,27 +36,27 @@ Merrimac	Wisconsin	June 24,2017		Fun	Recovering from head injury with parents	43
 Lansing	Iowa			Fun	Bike the Barns	43.3609	-91.2188
 Mequon	Wisconsin	2021		Fun	I picked up the Charles Dickens houses from here.	43.2363	-88.0211
 Spring Green	Wisconsin	2016		Fun	Sh*tty Barn Sessions!! Also went camping at Tower Hill State park	43.1779	-90.0874
-Milwaukee	Wisconsin			Fun	Touring Milwaukee with Friends	43.0527	-87.9200
+Milwaukee	Wisconsin			Fun	Touring Milwaukee with Friends	43.0527	-87.92
 Lansing	Michigan			Fun	Rugby Game @ MSU	42.7335	-84.5467
 Salem	Massachusetts	2023		Fun	Connor's Wedding	42.5156	-70.9298
-Boston	Massachusetts			Work	Supporting Partners' Go-Live	42.3300	-71.0700
-Detroit	Michigan			Fun	Visiting Nana and Bumpa	42.3300	-83.0801
+Boston	Massachusetts			Work	Supporting Partners' Go-Live	42.33	-71.07
+Detroit	Michigan			Fun	Visiting Nana and Bumpa	42.33	-83.0801
 Kalamazoo	Michigan			Work	Bronson Immersion Upgrade	42.2922	-85.5872
 Rockford	Illinois			Work	Immersion at Rockford Health System	42.2697	-89.0697
-Big Indian	New York	2021		Work	ZocDoc hackathon, which I won	42.1026	-74.4540
-Chicago	Illinois			Fun	Visiting Corey	41.8300	-87.7501
+Big Indian	New York	2021		Work	ZocDoc hackathon, which I won	42.1026	-74.454
+Chicago	Illinois			Fun	Visiting Corey	41.83	-87.7501
 Notre Dame University	Indiana			Fun	Austin and Connor had basketball camp there, I just visited!	41.7055	-86.2353
-Toledo	Ohio			Fun	Rugby Game @ Toledo	41.6700	-83.5800
+Toledo	Ohio			Fun	Rugby Game @ Toledo	41.67	-83.58
 Iowa City	Iowa	2018		Work	Immersion trip with Stephen and Trevor--I think it was in Iowa City at University of Iowa, but it's possible it was at Iowa State...Not sure.	41.6559	-91.5574
 Cleveland	Ohio			Work	Lockheed Martin Leadership Institute, seeing the research that goes on, relationship between NASA and Lockheed Martin.	41.4145	-81.8595
 Aurora	Ohio			Fun	Collin's wedding, Thorncreek Winery, super beautiful	41.3404	-81.3504
-Cheyenne	Wyoming	2019		Work	Immersion trip to Cheyenne Regional Medical Center, good time	41.1402	-104.8190
+Cheyenne	Wyoming	2019		Work	Immersion trip to Cheyenne Regional Medical Center, good time	41.1402	-104.819
 Canton	Ohio	2016		Fun	Alex and Kristen's wedding, unsure which year	40.8047	-81.5208
-New York City	New York			Fun	With Family on Vacation	40.7500	-73.9800
+New York City	New York			Fun	With Family on Vacation	40.75	-73.98
 Lima	Ohio			Fun	Filming for Justin and Missy's Wedding	40.7429	-84.1053
 West Lafayette	Indiana			Fun	Purdue University	40.4259	-86.9081
 Princeton	New Jersey	2008		Work	I think we went here for a college trip. We definitely toured the college.	40.3573	-74.6591
-Philadelphia	Pennsylvania			Fun	Visiting Audrey's Family	40.0000	-75.1700
+Philadelphia	Pennsylvania			Fun	Visiting Audrey's Family	40	-75.17
 Columbus	Ohio			Fun	Mirror Lake Jump	39.9612	-82.9988
 Chico	California	2019		Fun	Visiting Jessie	39.7577	-122.1009
 Denver	Colorado			Fun	Exploring Colorado with Tyler	39.7392	-104.9903
@@ -67,39 +67,39 @@ Chillicothe	Ohio	2020		Fun	150 mile relay race with friends, Buck Fifty	39.3418	
 Athens	Ohio			Fun	Rugby Game @ OU	39.3292	-82.1013
 Kansas City	Kansas			Fun	Tour de Greg	39.1136	-94.6301
 Lawrence	Kansas	2014		Fun	Tour de Greg	38.9734	-95.2509
-Peebles	Ohio			Work	GE Aviation, Peebles	38.9490	-83.4057
-Peebles	Ohio	2016		Work	GE Aviation Engine Testing Facility	38.9471	-83.4300
+Peebles	Ohio			Work	GE Aviation, Peebles	38.949	-83.4057
+Peebles	Ohio	2016		Work	GE Aviation Engine Testing Facility	38.9471	-83.43
 Washington	D.C.			Fun	Rugby Cherry Festival Tournament	38.8995	-77.0094
-Fort Washington	Maryland			Fun	Miami Rugby Club Cherry Blossom rugby tournament at Rosecroft Raceway. Unlike in the midwest, we were the biggest team out there and dominated the scrums!	38.7972	-76.9620
+Fort Washington	Maryland			Fun	Miami Rugby Club Cherry Blossom rugby tournament at Rosecroft Raceway. Unlike in the midwest, we were the biggest team out there and dominated the scrums!	38.7972	-76.962
 Chesapeake Bay	Maryland	2023		Fun	Connor's Bachelor Party - Cheseapeake Bay / North Beach	38.7073	-76.5344
 St. Louis	Missouri	2018		Work	Go live trip and visiting Jessie's family	38.6532	-90.3258
 Sonoma	California	2019		Fun	With Jessie	38.2911	-122.4697
 Death Valley	California	2020		Fun	Death Valley National Park, Badwater Basin, etc.	38.2727	-118.0258
-Louisville	Kentucky			Fun	Driving back from Spring Break	38.2250	-85.7487
+Louisville	Kentucky			Fun	Driving back from Spring Break	38.225	-85.7487
 Murphys	California	2020		Fun	Picking up Tyler's car, Brice Station Vineyards	38.1691	-120.4135
 Lodi	California	2020		Fun	Beginning of road trip with Tyler	38.1188	-121.3583
 Hutchinson	Kansas			Fun	Visiting Dad's Hometown	38.0655	-97.9235
-Lexington	Kentucky			Fun	Visiting Jordan	38.0500	-84.5000
+Lexington	Kentucky			Fun	Visiting Jordan	38.05	-84.5
 Red River Gorge	Kentucky			Fun	Spring Break Senior Year	37.8338	-83.6084
-San Francisco	California	2015		Work	Immersion at UCSF	37.7400	-122.4600
-Wichita	Kansas	2014		Fun	Tour de Greg	37.7200	-97.3300
+San Francisco	California	2015		Work	Immersion at UCSF	37.74	-122.46
+Wichita	Kansas	2014		Fun	Tour de Greg	37.72	-97.33
 Yosemite Valley	California	2020		Fun	Hiking in Yosemite National Park	37.5836	-119.2804
 San Mateo	California			Fun	Visited Bo!	37.5569	-122.3131
 Roanoake	Virginia	2022		Fun	Austin's Bachelor Party	37.2709	-79.9414
-Bishop	California	2020		Fun	Hanging out, drove through Bristlecone National Forest	37.1970	-118.1515
+Bishop	California	2020		Fun	Hanging out, drove through Bristlecone National Forest	37.197	-118.1515
 Mammoth Cave National Park	Kentucky			Fun	Went with the family and explored the caves.	37.1869	-86.1005
 Suffolk	Virginia			Work	Visited with Lockheed Martin and the Center For Innovation. Had a cool lego robot programming challenge.	36.8921	-76.4356
 Page	Arizona	2020		Fun	Horseshoe Bend	36.8835	-111.8355
 Bentonville	Arkansas			Fun	Visiting Dad	36.3729	-94.2088
-Norris Lake	Tennessee			Fun	Vacations	36.2950	-83.9082
-Nasheville	Tennessee			Fun	Cousins Live Here	36.1700	-86.7800
+Norris Lake	Tennessee			Fun	Vacations	36.295	-83.9082
+Nasheville	Tennessee			Fun	Cousins Live Here	36.17	-86.78
 Flagstaff	Arizona	2020		Fun	Hippie heavily treed town of Arizona	36.1423	-111.7134
 Grand Canyon National Park	Arizona	2020		Fun	Grand Canyon National Park--easy walk, daytrip.	36.1422	-111.7134
-Winston-Salem	North Carolina			Fun	Wake Forest College Visit	36.1054	-80.2600
-Fayetteville	Arkansas			Fun	Visiting Dad	36.0630	-94.1572
+Winston-Salem	North Carolina			Fun	Wake Forest College Visit	36.1054	-80.26
+Fayetteville	Arkansas			Fun	Visiting Dad	36.063	-94.1572
 Las Vegas	Nevada	2020		Fun	Just stopped for lunch, and to see the sign.	36.0311	-115.2226
-Durham	North Carolina			Fun	Duke visit	36.0000	-78.9200
-Knoxville	Tennessee			Fun	Visiting Sue & Joe	35.9700	-83.9200
+Durham	North Carolina			Fun	Duke visit	36	-78.92
+Knoxville	Tennessee			Fun	Visiting Sue & Joe	35.97	-83.92
 Chapel Hill	North Carolina			Fun	UNC College Visit	35.9132	-79.0558
 Hearst Castle	California			Fun	Family Vacation - Traveled to Hearst Castle	35.6852	-121.1682
 Asheville	North Carolina			Fun	Troy's Wedding	35.6012	-82.5541
@@ -107,14 +107,14 @@ Clingman's Dome	Tennessee			Fun	Spring break, junior year (2013).	35.5451	-83.52
 Outer Banks	North Carolina	2018		Fun	Pat and Jen's Wedding	35.5342	-75.8261
 Clemson	South Carolina			Fun	Clemson Visit	34.6834	-82.8374
 Phoenix	Arizona	2020		Fun	115 degrees here, so hot	33.9957	-111.4643
-Riverside	California			Work	Supporting RUHS Go-Live	33.9419	-117.3980
+Riverside	California			Work	Supporting RUHS Go-Live	33.9419	-117.398
 Greenville	South Carolina			Fun	Furman University	33.8361	-81.1164
-Atlanta	Georgia			Fun	Emory Tour	33.7490	-84.3880
-Irvine	California			Fun	Weekend exploring Cali	33.6804	-117.8300
+Atlanta	Georgia			Fun	Emory Tour	33.749	-84.388
+Irvine	California			Fun	Weekend exploring Cali	33.6804	-117.83
 Laguna Beach	California			Fun	Weekend exploring Cali	33.5422	-117.7831
 Tucson	Arizona	2020		Fun	Tucson was decent, I don't think that special though.	33.0938	-110.7055
 Charleston	South Carolina	2004		Fun	Mom said I was like 10 or 12	32.8212	-80.1356
-Dallas	Texas			Work	Visited Tessa!	32.8200	-96.8400
+Dallas	Texas			Work	Visited Tessa!	32.82	-96.84
 White Sands National Park	New Mexico	2020		Fun	Really cool, unlike anything I've ever seen.	32.7796	-106.1746
 El Paso	Texas	2020		Fun	Poverty, the town wasn't very nice, but large. Borders Mexico	32.7723	-106.9095
 Savannah	Georgia			Fun	Robert's Wedding	32.0835	-81.0998
@@ -125,10 +125,14 @@ Austin	Texas			Fun	Weekend with Tyle & Stephane	30.2672	-97.7431
 Dripping Springs	Texas	2023		Fun	Visiting Texas Hill Country with Tyler and Vanda while down in Austin	30.1852	-98.1081
 Panama City Beach	Florida			Fun	Spring Break Sophomore Year	30.1586	-85.6553
 New Orleans	Louisiana	2019		Work	Immersion trip to Ochsner	29.9511	-90.0715
-Houston	Texas			Work	Escalation @ Houston Methodist	29.8200	-95.3400
-Orlando	Florida			Fun	Family Vacation	28.5100	-81.3800
-Tampa	Florida			Work	Nielsen Interview	27.9470	-82.4586
+Houston	Texas			Work	Escalation @ Houston Methodist	29.82	-95.34
+Orlando	Florida			Fun	Family Vacation	28.51	-81.38
+Tampa	Florida			Work	Nielsen Interview	27.947	-82.4586
 Hutchinson Island	Florida	1999		Fun	Nana and Bumpa's Condo	27.3194	-80.2331
-West Palm Beach	Florida			Fun	Visiting Nana	26.7450	-80.1236
+West Palm Beach	Florida			Fun	Visiting Nana	26.745	-80.1236
 Marco Island	Florida	2019		Fun	Vacation with Paige and Jessica	25.9392	-81.7158
 Key Largo	Florida	2019		Fun	Vacation to get SCUBA certified and visit Troy and Kat	25.1673	-80.5409
+Forks	Washington	2024		Fun	Vacation after Mac's wedding	47.9524	-124.4061
+Klaloch	Washington	2024		Fun	Viewing Tree of life	47.6057	-124.3813
+Olympia	Washington	2024		Fun	Driving back from Western Washington to airport	47.0395	-122.9382
+Bellevue	Washington	2024		Fun	Visiting Jacob	47.5979	-122.2334
